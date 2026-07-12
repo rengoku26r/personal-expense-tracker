@@ -43,3 +43,8 @@ def showAllTransactions():
 ## close the connection from the database
 def closeDatabase():
     connectDatabase.close()
+
+def weekTransactions():
+    cur.execute("SELECT rowid, * FROM Transactions LIMIT 7 DESC")
+    transaction = cur.fetchall()
+    return transaction

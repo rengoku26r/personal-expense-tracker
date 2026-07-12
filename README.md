@@ -13,3 +13,21 @@ for now what i will doing is making the dashboard
 so i always push late in the github
 
 i dont have any proper name for it if you have then suggets me
+
+when i taught of this project i have leanr this from
+
+https://youtu.be/byHcYRpMgI4?si=SvujGgcDGV3DzH66
+
+other things i alredy now till now
+
+but tikinter i am lerning and building
+
+becuse i dont want to host it somewhere i just want to create softwers not web app for now
+
+
+and as mentione in the description i dont want to use ai i am using online websites to learn things
+
+just one op that is our 
+https://stackoverflow.com/questions ofcourse for the errors
+
+and docs for the code
