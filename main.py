@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import ttk
 
 root = Tk()
 root.geometry("1424x801")
@@ -62,8 +63,24 @@ if True:
 
     spent = Frame(insigts2,bg="yellow", width=250)
     spent.pack(fill = Y, expand=True,anchor="w", padx = 2.5, pady = 2.5,side=LEFT)
+Label(main,text="hello this tranction block how do you do").pack(anchor="w")
 
 tansHist = Frame(main,bg = "pink")
 tansHist.pack(fill=BOTH,expand=True)
-Label(tansHist,text="hello this tranction block how do you do").pack()
+
+canvas = Canvas(tansHist,bg="darkgreen")
+scrollbar = ttk.Scrollbar(tansHist,orient="vertical",command=canvas.yview)
+transFrame = Frame(canvas,bg="skyblue")
+transFrame.bind("<Configure>", lambda e:canvas.configure(scrollregion=canvas.bbox("all")))
+canvas.create_window((0,0),window=transFrame,anchor="nw",width=900)
+canvas.configure(yscrollcommand=scrollbar.set)
+
+canvas.pack(side=LEFT,fill=BOTH,expand=True)
+scrollbar.pack(side=RIGHT,fill=Y)
+
+def mouse_scroll(event):
+    canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+
+canvas.bind_all("<MouseWheel>", mouse_scroll)
+
 root.mainloop()

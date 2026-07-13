@@ -1,11 +1,9 @@
-.env
 __pycache__
 Statement
-Untitled-1.psd
+.env
 2.csv
 captcha.png
-testCode.ipynb
-scrap.py
 database.db
-test.py
-main1.py
+scrap.py
+testCode.ipynb
+Untitled-1.psd
