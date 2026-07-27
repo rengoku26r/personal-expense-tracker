@@ -45,6 +45,6 @@ def closeDatabase():
     connectDatabase.close()
 
 def weekTransactions():
-    cur.execute("SELECT rowid, * FROM Transactions LIMIT 7 DESC")
+    cur.execute("SELECT rowid, * FROM Transactions ORDER BY rowid DESC LIMIT 7")
     transaction = cur.fetchall()
     return transaction
