@@ -1,7 +1,6 @@
 import tkinter as tk
-from turtle import color
-
-from sqlalchemy import false
+from tkinter import messagebox
+from datetime import datetime
 import database
 
 root = tk.Tk()
@@ -44,12 +43,17 @@ def updateInsights(details : tuple = (0,0,0)):
 
 updateInsights()
 
-header = ["Transaction Date", "Withdrawal", "Deposit", "Balance", "Catogrey", "Source"]
+header = ["Transaction Date", "Withdrawal", "Deposit", "Catogrey", "Source",""]
 
 headerFrame = tk.Frame(mainWindow,height=40,bg="blue")
 headerFrame.pack(fill=tk.X)
 headerFrame.pack_propagate(False)
-tk.Label(headerFrame,text="abc").pack()
+
+for textL in header:
+    x = tk.Frame(headerFrame,width=190)
+    x.pack(side="left",fill=tk.Y,expand=True,padx=(10,0),anchor="w")
+    x.pack_propagate(False)
+    tk.Label(x,text=textL).pack()
 
 tansHist = tk.Frame(mainWindow,bg = "black",height=530,width=1280)
 tansHist.pack()
@@ -102,6 +106,31 @@ def delteteTop():
     add_trans.config(state="normal")
     top.destroy()
 
+def addthevalue():
+    try:
+        datetime.strptime(dateTranstion.get(), "%d/%m/%Y")
+    except:
+        messagebox.showerror(title="Invalid Format",message="Date is not in the valid format.Use DD/MM/YYYY format.")
+        return
+    try:
+        float(withdrawal.get())
+    except:
+        messagebox.showerror(title="Invalid Format",message="Withdrawal should be decimal or intger in ruppes.")
+        return
+    try:
+        float(deposite.get())
+    except:
+        messagebox.showerror(title="Invalid Format",message="Deposite should be decimal or intger in ruppes.")
+        return
+    if(deposite.get() > 0 and withdrawal.get() > 0):
+        messagebox.showerror(title="Invalid Tranctions",message="Deposite and Withdrawl cannot be done together.")
+        return
+    if(deposite.get() == 0 and withdrawal.get() == 0):  
+        messagebox.showerror(title="Invalid Tranctions",message="Both cannot be zero at ones.")
+        return
+    database.addTransactions((dateTranstion.get(),float(withdrawal.get()),float(deposite.get()),catogrey.get(),choosedoptions.get()))
+    delteteTop()      
+    
 def addTrans():
     add_trans.config(state="disabled")
     app_width = 250
@@ -116,24 +145,33 @@ def addTrans():
     top.geometry(f"{app_width}x{app_height}+{int(x)}+{int(y)}")
     top.resizable(False,False)
     tk.Label(top,text="Transaction Date").grid(row=0,column=0)
-    dateTrans = tk.Entry(top)
+    global dateTranstion
+    dateTranstion = tk.StringVar(value="DD/MM/YYYY")
+    dateTrans = tk.Entry(top,textvariable=dateTranstion)
     dateTrans.grid(row=0,column=1)
     tk.Label(top,text="Withdrawal").grid(row=1,column=0)
-    withd = tk.Entry(top)
+    global withdrawal
+    withdrawal = tk.DoubleVar(value=0.0)
+    withd = tk.Entry(top,textvariable=withdrawal)
     withd.grid(row=1,column=1)
     tk.Label(top,text="Deposit").grid(row=2,column=0)
-    depo = tk.Entry(top)
+    global deposite
+    deposite = tk.DoubleVar(value=0.0)
+    depo = tk.Entry(top,textvariable=deposite)
     depo.grid(row=2,column=1)
     tk.Label(top,text="Catogrey").grid(row=3,column=0)
-    cato = tk.Entry(top)
+    global catogrey
+    catogrey = tk.StringVar(value="food,cloths,etc..")
+    cato = tk.Entry(top,textvariable=catogrey)
     cato.grid(row=3,column=1)
     options = ["PNB","SBI","Cash"]
+    global choosedoptions
     choosedoptions = tk.StringVar()
     choosedoptions.set(options[0])
     tk.Label(top,text="Source").grid(row=4,column=0)
     sour = tk.OptionMenu(top,choosedoptions,*options)
     sour.grid(row=4,column=1)
-    submit = tk.Button(top,text="Add",command=delteteTop)
+    submit = tk.Button(top,text="Add",command=addthevalue)
     submit.grid(row=5)
     top.protocol("WM_DELETE_WINDOW", delteteTop)
     top.mainloop()
@@ -141,7 +179,6 @@ def addTrans():
 add_trans = createButton("Add Tranction")
 add_trans.configure(command=addTrans)
 fetch_trans = createButton("Fetch Tranction")
-update_value = createButton("Update the cash")
 
 database.intializeDatabase()
 
