@@ -108,26 +108,38 @@ def addthevalue():
         datetime.strptime(dateTranstion.get(), "%d/%m/%Y")
     except:
         messagebox.showerror(title="Invalid Format",message="Date is not in the valid format.Use DD/MM/YYYY format.")
+        top.lift()
+        top.focus_force()
         return
     try:
         float(withdrawal.get())
     except:
         messagebox.showerror(title="Invalid Format",message="Withdrawal should be decimal or intger in ruppes.")
+        top.lift()
+        top.focus_force()
         return
     try:
         float(deposite.get())
     except:
         messagebox.showerror(title="Invalid Format",message="Deposite should be decimal or intger in ruppes.")
+        top.lift()
+        top.focus_force()
         return
     if(deposite.get() > 0 and withdrawal.get() > 0):
         messagebox.showerror(title="Invalid Tranctions",message="Deposite and Withdrawl cannot be done together.")
+        top.lift()
+        top.focus_force()
         return
     if(deposite.get() == 0 and withdrawal.get() == 0):  
         messagebox.showerror(title="Invalid Tranctions",message="Both cannot be zero at ones.")
+        top.lift()
+        top.focus_force()
         return
     if withdrawal.get() != 0:
         if(database.get_config(choosedoptions.get())-withdrawal.get() < 0):
             messagebox.showerror(title="Invalid Tranctions",message="Insufficent balnce")
+            top.lift()
+            top.focus_force()
             return 
         else:
             database.set_config(choosedoptions.get(),database.get_config(choosedoptions.get())-withdrawal.get())
@@ -195,6 +207,8 @@ def delteteTop1():
     top1.destroy()
     root.lift()
     root.focus_force()
+    add_trans.config(state="normal")
+    fetch_trans.config(state="normal")
     updateInsights()
 
 def addtheblance(): 
@@ -204,6 +218,8 @@ def addtheblance():
         float(cashcash.get())
     except:
         messagebox.showerror(title="Invalid Format",message="Amount should be decimal or intger in ruppes.")
+        top1.focus_force()
+        top1.lift()
         return
     database.set_config("PNB",pnbcash.get())
     database.set_config("SBI",sbicash.get())
@@ -211,6 +227,8 @@ def addtheblance():
     delteteTop1() 
 
 def addBlance():
+    add_trans.config(state="disabled")
+    fetch_trans.config(state="disabled")
     app_width = 250
     app_height = 180
     screen_width = root.winfo_screenwidth()
