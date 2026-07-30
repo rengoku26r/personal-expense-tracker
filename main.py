@@ -288,6 +288,7 @@ def fetchTranction():
                     pnb_balance -= item[2]
                 else:
                     pnb_balance += item[3]
+                    
             elif(item[5] == "SBI"):
                 if(item[2] != 0):
                     sbi_balance -= item[2]
